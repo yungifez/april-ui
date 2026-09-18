@@ -2,11 +2,11 @@
 view: components.docs-layout
 title: Editor
 description: A rich text editor with a configurable toolbar.
+assets:
+  - editor
 ---
 
 <x-component-preview component="previews.editor-demo"></x-component-preview>
-
-@aprilEditorScripts
 
 Add `@aprilEditorScripts` after `@aprilScripts` in the layout that renders the editor. The editor bundle is optional so
 pages that do not use `<april:editor>` do not load TipTap.
