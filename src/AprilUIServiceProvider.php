@@ -88,7 +88,7 @@ class AprilUIServiceProvider extends PackageServiceProvider
             }
 
             $path = $file->getPathname();
-            $relative = str_replace($basePath.'/', '', $path);
+            $relative = str_replace('\\', '/', $file->getRelativePathname());
 
             $this->publishes([
                 $path => resource_path("views/vendor/april/components/{$relative}"),

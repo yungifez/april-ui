@@ -84,6 +84,18 @@ describe('component publishing', function () {
             ->toBe(file_get_contents(componentPath('select')));
     });
 
+    it('publishes input-group by its component name', function () {
+        $exitCode = Artisan::call('april:publish', [
+            'components' => ['input-group'],
+            '--force' => true,
+        ]);
+
+        expect($exitCode)->toBe(0)
+            ->and(resource_path('views/vendor/april/components/input-group.blade.php'))->toBeFile()
+            ->and(file_get_contents(resource_path('views/vendor/april/components/input-group.blade.php')))
+            ->toBe(file_get_contents(componentPath('input-group')));
+    });
+
     it('lets Laravel resolve a published override', function () {
         Artisan::call('april:publish', [
             'components' => ['button'],

@@ -95,6 +95,36 @@ jobs:
       - name: Execute tests
         run: php vendor/bin/pest --ci --no-coverage
 
+  windows-publish-test:
+    name: Publish tests - Windows
+    needs: build-assets
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Download built assets
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: package-assets
+          path: dist
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240b1 # v2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, intl, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer require --dev "laravel/framework:13.*" "orchestra/testbench:11.*" "nesbot/carbon:>=3.8.4 <4.0" --no-interaction --no-update
+          composer update --prefer-stable --prefer-dist --no-interaction
+
+      - name: Execute tests
+        run: php vendor/bin/pest tests/Feature/ServiceProviderTest.php tests/Feature/RegistryCommandsTest.php --ci --no-coverage
+
   publish-assets:
     name: Publish built assets
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
