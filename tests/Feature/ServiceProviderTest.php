@@ -60,7 +60,7 @@ describe('publishing', function () {
 
     it('points a component tag at the file it names', function (string $name) {
         expect(realpath(array_key_first(publishPaths("april-view-{$name}"))))
-            ->toBe(componentPath($name));
+            ->toBe(realpath(componentPath($name)));
     })->with('components');
 
     it('publishes one component without publishing the others', function () {
