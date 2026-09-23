@@ -53,7 +53,7 @@ describe('publishing', function () {
     })->with('components');
 
     it('points a component tag at the vendor view path', function (string $name) {
-        $target = array_values(publishPaths("april-view-{$name}"))[0];
+        $target = str_replace('\\', '/', array_values(publishPaths("april-view-{$name}"))[0]);
 
         expect($target)->toEndWith("resources/views/vendor/april/components/{$name}.blade.php");
     })->with('components');
