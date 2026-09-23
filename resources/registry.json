@@ -1229,8 +1229,7 @@
         "dependencies": [],
         "packages": {
             "composer": [
-                "tales-from-a-dev/tailwind-merge-php",
-                "mallardduck/blade-lucide-icons"
+                "tales-from-a-dev/tailwind-merge-php"
             ]
         }
     },
