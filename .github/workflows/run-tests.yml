@@ -122,7 +122,7 @@ jobs:
           composer require --dev "laravel/framework:13.*" "orchestra/testbench:11.*" "nesbot/carbon:>=3.8.4 <4.0" --no-interaction --no-update
           composer update --prefer-stable --prefer-dist --no-interaction
 
-      - name: Execute publish tests
+      - name: Execute tests
         run: php vendor/bin/pest tests/Feature/ServiceProviderTest.php tests/Feature/RegistryCommandsTest.php --ci --no-coverage
 
   publish-assets:
