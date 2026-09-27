@@ -14,34 +14,7 @@ instead of the one I guessed you needed.
 Wrap everything in `sidebar-layout`. It holds the open state, so the sidebar, the trigger and the page content all
 agree on whether the sidebar is open.
 
-<x-code-block-wrapper title="layout.blade.php" language="blade">
-@verbatim
-<april:sidebar-layout>
-    <april:sidebar>
-        <slot:header>...</slot:header>
-        <slot:content>
-            <april:sidebar-group>
-                <april:sidebar-group-label>Platform</april:sidebar-group-label>
-                <april:sidebar-group-content>
-                    <april:sidebar-menu>
-                        <april:sidebar-menu-item>
-                            <april:sidebar-menu-button-link href="/inbox">Inbox</april:sidebar-menu-button-link>
-                        </april:sidebar-menu-item>
-                    </april:sidebar-menu>
-                </april:sidebar-group-content>
-            </april:sidebar-group>
-        </slot:content>
-        <slot:footer>...</slot:footer>
-        <april:sidebar-rail />
-    </april:sidebar>
-
-    <april:sidebar-inset>
-        <april:sidebar-trigger />
-        {{ $slot }}
-    </april:sidebar-inset>
-</april:sidebar-layout>
-@endverbatim
-</x-code-block-wrapper>
+<x-code-block-wrapper title="layout.blade.php" language="blade" file="snippets/sidebar-layout.blade.php" />
 
 <x-callout>
 Put `sidebar-inset` next to the sidebar, not inside it. It holds your page content and shifts as the sidebar opens
@@ -249,17 +222,7 @@ Or set them in your CSS to change every sidebar:
 Every part carries a `data-slot` attribute, and the sidebar carries its state. You can style any part without
 touching the markup:
 
-<x-code-block-wrapper title="app.css" language="css">
-/* The menu button of the current page */
-[data-slot="sidebar-menu-button"][data-active="true"] {
-    font-weight: 600;
-}
-
-/* Only while the sidebar is collapsed */
-[data-slot="sidebar"][data-state="collapsed"] [data-slot="sidebar-header"] {
-    justify-content: center;
-}
-</x-code-block-wrapper>
+<x-code-block-wrapper title="app.css" language="css" file="snippets/sidebar-styling.css" />
 
 See [Data attributes](/docs/1.x/data-attributes) for the full list.
 
