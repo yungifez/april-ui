@@ -1,57 +1,98 @@
 ---
 view: components.docs-layout
 title: Installation
-description: How to install the project.
+description: Start a new Laravel app with a starter kit, or add April UI to an app you already have.
 ---
 
-## Requirements
+The fastest way to start is a starter kit. You get a new Laravel app with April UI, Tailwind, Alpine, authentication,
+and an application shell already in place. If you already have an app, you can add April UI by hand in a few steps.
 
-To install this project, you need:
+## Start with a starter kit
 
-- A Laravel 12 app
-- PHP 8.3 and above
-- Tailwind CSS (v4)
-- Alpine JS
-- A cool project idea
+Pick the kit that matches how you build. Use the Blade kit for controllers, forms, and server-rendered views:
 
-## Installation
+<x-code-block-wrapper title="Blade" language="bash">
+laravel new my-app --using=yungifez/april-ui-blade-starter-kit
+</x-code-block-wrapper>
 
-To set up the project:
+Use the Livewire kit for Livewire page components:
 
-<ul class="flex min-w-0 max-w-full flex-col gap-5">
-    <li class="min-w-0 max-w-full wrap-break-word">
-        Install the package using Composer
-        <x-code-block-wrapper language="bash">
-            composer require yungifez/april-ui
-        </x-code-block-wrapper>
-    </li>
-    <li class="min-w-0 max-w-full wrap-break-word">
-    In your CSS file, import the project's CSS file
-    <x-code-block-wrapper title="app.css" language="css">
-        @import "../../vendor/yungifez/april-ui/resources/css/april.css";
-    </x-code-block-wrapper>
-    </li>
-    <li class="min-w-0 max-w-full wrap-break-word">
-    In your JS file, import the project's Javascript file
-    <x-code-block-wrapper title="app.js" language="js">
-        import '/vendor/yungifez/april-ui/dist/april.js'
-    </x-code-block-wrapper>
-    Or you could use the blade directive
-    <x-code-block-wrapper title="layout.blade.php" language="js">
-        @verbatim
-            @aprilScripts
-        @endverbatim
-    </x-code-block-wrapper>
-    </li>
-    <li class="min-w-0 max-w-full wrap-break-word">
-    Test the setup was successful
-    <x-code-block-wrapper title="index.blade.php" language="blade">
-        @verbatim
-        <april:button>Hello There Youtube!</april:button>
-        @endverbatim
-    </x-code-block-wrapper>
-    </li>
-</ul>
+<x-code-block-wrapper title="Livewire" language="bash">
+laravel new my-app --using=yungifez/april-ui-starter-kit
+</x-code-block-wrapper>
+
+Then start the app:
+
+<x-code-block-wrapper language="bash">
+cd my-app
+composer dev
+</x-code-block-wrapper>
+
+That's it. See [Starter kits](/docs/1.x/starter-kits) for what each kit includes.
+
+## Add to an existing app
+
+Your app needs:
+
+- Laravel 12 or 13
+- PHP 8.3 or later
+- Tailwind CSS 4
+- Alpine.js. Livewire already includes it.
+
+### 1. Install the package
+
+<x-code-block-wrapper language="bash">
+composer require yungifez/april-ui
+</x-code-block-wrapper>
+
+### 2. Import the styles
+
+Import April UI after Tailwind in your CSS file. April UI tells Tailwind where its views are, so you do not need to add
+a `@source` line.
+
+<x-code-block-wrapper title="resources/css/app.css" language="css">
+@import "tailwindcss";
+@import "../../vendor/yungifez/april-ui/resources/css/april.css";
+</x-code-block-wrapper>
+
+### 3. Load the scripts
+
+Add `@aprilScripts` to the `<head>` of your layout. It registers April UI with Alpine before Alpine starts.
+
+<x-code-block-wrapper title="resources/views/components/layouts/app.blade.php" language="blade">
+@verbatim
+@aprilScripts
+@endverbatim
+</x-code-block-wrapper>
+
+The rich text editor ships separately, so pages without it stay light. Add `@aprilEditorScripts` only to layouts
+that render `<april:editor>`:
+
+<x-code-block-wrapper title="resources/views/components/layouts/app.blade.php" language="blade">
+@verbatim
+@aprilScripts
+@aprilEditorScripts
+@endverbatim
+</x-code-block-wrapper>
+
+To put April UI in your own bundle instead, see **Bundle the scripts yourself** below.
+
+### 4. Try a component
+
+<x-code-block-wrapper title="resources/views/welcome.blade.php" language="blade">
+@verbatim
+<april:button>Hello, April</april:button>
+@endverbatim
+</x-code-block-wrapper>
+
+Run `npm run dev` and open the page. You should see a styled button.
+
+## Bundle the scripts yourself
+
+Use this when you want April UI in your own Vite bundle instead of `@aprilScripts`. Import the core entry point from
+the Composer package and register it when Alpine initializes:
+
+<x-code-block-wrapper title="resources/js/app.js" language="js" file="snippets/installation-app.js" />
 
 <x-callout>
 
@@ -101,25 +142,6 @@ Review published components against the package version with:
 
 Use `--dry-run` to inspect changes without writing files. Use `php artisan april:doctor` to find common Blade issues,
 such as a typeless button inside a form.
-
-## Optional JavaScript entry points
-
-The `@aprilScripts` directive is the easiest setup. If you manage your JavaScript bundle yourself, import the core
-entry point from the Composer package. Use this entry point when Livewire or your app already starts Alpine:
-
-<x-code-block-wrapper title="resources/js/app.js" language="js" file="snippets/installation-app.js" />
-
-The core bundle does not include the optional rich text editor. Add `@aprilEditorScripts` only to layouts that
-render `<april:editor>`:
-
-<x-code-block-wrapper title="layout.blade.php" language="blade">
-@verbatim
-@aprilScripts
-@aprilEditorScripts
-@endverbatim
-</x-code-block-wrapper>
-
-This keeps TipTap and its editor extensions out of pages that do not use the editor.
 
 ## MCP server
 
