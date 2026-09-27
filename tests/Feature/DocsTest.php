@@ -50,6 +50,17 @@ function documentedComponents(): array
     return $names;
 }
 
+/**
+ * @return list<string>
+ */
+function allDocsPages(): array
+{
+    return array_merge(
+        glob(docsPath('pages/1.x').'/*.blade.md'),
+        glob(docsPath('pages/1.x/components').'/*.blade.md')
+    );
+}
+
 dataset('previews', fn () => previewNames());
 
 describe('previews', function () {
@@ -128,6 +139,34 @@ describe('pages', function () {
         expect(file_get_contents(docsPath('pages/1.x/installation.blade.md')))
             ->not->toContain('tailwind-merge-laravel')
             ->not->toContain('tailwind-merge-php.git');
+    });
+
+    it('keeps blank lines out of inline code blocks', function (string $page) {
+        preg_match_all(
+            '/<x-code-block-wrapper\b[^>]*(?<!\/)>(.*?)<\/x-code-block-wrapper>/s',
+            file_get_contents($page),
+            $matches
+        );
+
+        $blocks = array_filter($matches[1], fn (string $code): bool => (bool) preg_match('/\n[ \t]*\n/', trim($code, "\n")));
+
+        expect($blocks)->toBeEmpty(
+            basename($page).' has a blank line in a code block. Markdown ends the block there. Move the code to docs/snippets.'
+        );
+    })->with(fn () => allDocsPages());
+
+    it('only points at snippets that exist', function (string $page) {
+        preg_match_all('/file="(snippets\/[^"]+)"/', file_get_contents($page), $matches);
+
+        $missing = array_filter($matches[1], fn (string $snippet): bool => ! is_file(docsPath($snippet)));
+
+        expect($missing)->toBeEmpty(basename($page).' points at a snippet that does not exist.');
+    })->with(fn () => allDocsPages());
+
+    it('imports the javascript from the composer package', function () {
+        expect(file_get_contents(docsPath('pages/1.x/installation.blade.md')).file_get_contents(docsPath('snippets/installation-app.js')))
+            ->not->toContain("from 'april-ui/")
+            ->toContain('vendor/yungifez/april-ui/resources/js/april-core.js');
     });
 
     it('uses markdown-safe links in the introduction callout', function () {

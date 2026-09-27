@@ -55,23 +55,7 @@ Keep the trigger and content in the same `april:collapsible` component. The comp
 
 Use `open` to start expanded. Use `x-model` or `wire:model` when another state owns the value.
 
-<x-code-block-wrapper language="blade">
-@verbatim
-<div x-data="{ detailsOpen: false }">
-    <april:collapsible x-model="detailsOpen">
-        <slot:trigger>
-            <april:button variant="outline">Toggle details</april:button>
-        </slot:trigger>
-        <slot:content>These details follow the Alpine state.</slot:content>
-    </april:collapsible>
-</div>
-
-<april:collapsible wire:model="detailsOpen">
-    <slot:trigger><april:button>Toggle details</april:button></slot:trigger>
-    <slot:content>These details follow the Livewire property.</slot:content>
-</april:collapsible>
-@endverbatim
-</x-code-block-wrapper>
+<x-code-block-wrapper language="blade" file="snippets/collapsible-model.blade.php" />
 
 The component exposes its state through `x-modelable="open"`, so Alpine and Livewire can update the same value.
 
@@ -94,21 +78,7 @@ Set `disabled` to prevent the trigger from changing the panel state.
 
 Place another `april:collapsible` in the content slot to create a nested panel.
 
-<x-code-block-wrapper language="blade">
-@verbatim
-<april:collapsible>
-    <slot:trigger><april:button variant="ghost">Project details</april:button></slot:trigger>
-    <slot:content>
-        <p>Project description.</p>
-
-        <april:collapsible>
-            <slot:trigger><april:button variant="ghost">Advanced details</april:button></slot:trigger>
-            <slot:content>Advanced project settings.</slot:content>
-        </april:collapsible>
-    </slot:content>
-</april:collapsible>
-@endverbatim
-</x-code-block-wrapper>
+<x-code-block-wrapper language="blade" file="snippets/collapsible-nested.blade.php" />
 
 ## API reference
 

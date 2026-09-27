@@ -72,18 +72,7 @@ The package works without any config. If you use a custom Tailwind setup, publis
 
 The `tailwind_merge` section controls how a component merges its own classes with the classes you pass to it:
 
-<x-code-block-wrapper title="config/april-ui.php" language="php">
-'tailwind_merge' => [
-    // The prefix of your Tailwind classes, if you use one.
-    'prefix' => null,
-
-    // Number of merge results to keep in memory. Set to 0 to disable.
-    'cacheSize' => 500,
-
-    // Extra class groups, for a custom Tailwind value that does not merge correctly.
-    'classGroups' => [],
-],
-</x-code-block-wrapper>
+<x-code-block-wrapper title="config/april-ui.php" language="php" file="snippets/installation-tailwind-merge.php" />
 
 ## Package views and publishing
 
@@ -115,30 +104,22 @@ such as a typeless button inside a form.
 
 ## Optional JavaScript entry points
 
-The `@aprilScripts` directive is the easiest setup. If you manage your JavaScript bundle yourself, the package exposes
-separate entry points:
+The `@aprilScripts` directive is the easiest setup. If you manage your JavaScript bundle yourself, import the core
+entry point from the Composer package. Use this entry point when Livewire or your app already starts Alpine:
 
-<x-code-block-wrapper title="resources/js/app.js" language="js">
-import { registerApril } from 'april-ui/core'
-import { registerLivewireBridge } from 'april-ui/livewire'
+<x-code-block-wrapper title="resources/js/app.js" language="js" file="snippets/installation-app.js" />
 
-document.addEventListener('alpine:init', () => {
-    registerApril(window.Alpine)
-    registerLivewireBridge(window.Alpine)
-})
+The core bundle does not include the optional rich text editor. Add `@aprilEditorScripts` only to layouts that
+render `<april:editor>`:
+
+<x-code-block-wrapper title="layout.blade.php" language="blade">
+@verbatim
+@aprilScripts
+@aprilEditorScripts
+@endverbatim
 </x-code-block-wrapper>
 
-    The core bundle does not include the optional rich text editor. Add `@aprilEditorScripts` only to layouts that
-    render `<april:editor>`:
-
-    <x-code-block-wrapper title="layout.blade.php" language="blade">
-        @verbatim
-            @aprilScripts
-            @aprilEditorScripts
-        @endverbatim
-    </x-code-block-wrapper>
-
-    This keeps TipTap and its editor extensions out of pages that do not use the editor.
+This keeps TipTap and its editor extensions out of pages that do not use the editor.
 
 ## MCP server
 

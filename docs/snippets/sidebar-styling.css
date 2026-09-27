@@ -1,0 +1,9 @@
+/* The menu button of the current page */
+[data-slot="sidebar-menu-button"][data-active="true"] {
+    font-weight: 600;
+}
+
+/* Only while the sidebar is collapsed */
+[data-slot="sidebar"][data-state="collapsed"] [data-slot="sidebar-header"] {
+    justify-content: center;
+}

@@ -52,19 +52,7 @@ When a component wraps another one, the outer name wins. `sidebar-input` renders
 
 `data-state` says what the component is doing. The value depends on the component:
 
-<x-code-block-wrapper language="html">
-<!-- Anything that opens -->
-data-state="open" | data-state="closed"
-
-<!-- Switch -->
-data-state="checked" | data-state="unchecked"
-
-<!-- Tabs -->
-data-state="active" | data-state="inactive"
-
-<!-- Sidebar -->
-data-state="expanded" | data-state="collapsed"
-</x-code-block-wrapper>
+<x-code-block-wrapper language="html" file="snippets/data-attributes-state.html" />
 
 A disabled control also gets `data-disabled`.
 

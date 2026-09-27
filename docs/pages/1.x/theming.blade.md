@@ -123,22 +123,7 @@ Here's the list of variables available for customization:
 
 To add new colors, define the channels and then map them in your `@theme` block. Both live in your CSS file.
 
-<x-code-block-wrapper title="app.css" language="css">
-:root {
-  --warning: 38 92% 50%;
-  --warning-foreground: 48 96% 89%;
-}
-
-.dark {
-  --warning: 48 96% 89%;
-  --warning-foreground: 38 92% 50%;
-}
-
-@theme {
-  --color-warning: hsl(var(--warning));
-  --color-warning-foreground: hsl(var(--warning-foreground));
-}
-</x-code-block-wrapper>
+<x-code-block-wrapper title="app.css" language="css" file="snippets/theming-new-colors.css" />
 
 <x-callout>
 Tailwind v4 has no `tailwind.config.js`. If you are following an older guide that tells you to add colors there, use
