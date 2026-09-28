@@ -8,7 +8,7 @@ $sections = [
     [
         'name' => 'content',
         'slot' => $content,
-        'classes' => ['flex h-full min-h-0 flex-1 flex-col gap-2 overflow-auto p-2 group-data-[collapsible=icon]:overflow-hidden'],
+        'classes' => ['flex h-full min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:[scrollbar-width:none]'],
     ],
     [
         'name' => 'footer',
