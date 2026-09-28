@@ -18,15 +18,15 @@ description: A Laravel-first component library for building polished interfaces 
         </div>
     </div>
     <div class="grid gap-0 divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-        <a href="{{url('docs/1.x/installation')}}" class="group p-5 no-underline transition-colors hover:bg-muted/30">
-            <span class="font-mono text-xs text-primary">01</span>
-            <strong class="mt-2 block text-sm text-foreground">Install the package</strong>
-            <span class="mt-1 block text-sm leading-6 text-muted-foreground">Add April UI to an existing Laravel application.</span>
-        </a>
         <a href="{{url('docs/1.x/starter-kits')}}" class="group p-5 no-underline transition-colors hover:bg-muted/30">
-            <span class="font-mono text-xs text-primary">02</span>
+            <span class="font-mono text-xs text-primary">01</span>
             <strong class="mt-2 block text-sm text-foreground">Start with a kit</strong>
             <span class="mt-1 block text-sm leading-6 text-muted-foreground">Choose a Blade or Livewire application shell.</span>
+        </a>
+        <a href="{{url('docs/1.x/installation')}}" class="group p-5 no-underline transition-colors hover:bg-muted/30">
+            <span class="font-mono text-xs text-primary">02</span>
+            <strong class="mt-2 block text-sm text-foreground">Install the package</strong>
+            <span class="mt-1 block text-sm leading-6 text-muted-foreground">Add April UI to an existing Laravel application.</span>
         </a>
         <a href="{{url('docs/1.x/components/button')}}" class="group p-5 no-underline transition-colors hover:bg-muted/30">
             <span class="font-mono text-xs text-primary">03</span>
@@ -72,5 +72,5 @@ The component pages show the rendered result, the Blade source, available option
 <x-callout>
     **Choose your starting point**
 
-    Use the [installation guide](/docs/1.x/installation) for an existing application, or use the [starter kits](/docs/1.x/starter-kits) when you want a working Laravel shell with April UI already in place. You can also browse the [blocks](/blocks) for larger compositions.
+    Start with one of the [starter kits](/docs/1.x/starter-kits) for a working Laravel shell with April UI already in place, or follow the [installation guide](/docs/1.x/installation) to add it to an existing application. You can also browse the [blocks](/blocks) for larger compositions.
 </x-callout>
