@@ -276,6 +276,24 @@ describe('sidebar sections', function () {
             ->toContain('data-slot="sidebar-footer"');
     });
 
+    it('leaves the padding of the content to its groups and keeps it scrolling when collapsed', function () {
+        $html = render(<<<'BLADE'
+        <april:sidebar>
+            <slot:content>Content</slot:content>
+        </april:sidebar>
+        BLADE);
+
+        preg_match('/data-slot="sidebar-content"[^>]*class="([^"]*)"/', $html, $matches);
+        $classes = explode(' ', $matches[1] ?? '');
+
+        expect($classes)
+            ->toContain('overflow-auto')
+            ->toContain('group-data-[collapsible=icon]:[scrollbar-width:none]')
+            ->not->toContain('p-2')
+            ->not->toContain('group-data-[collapsible=icon]:overflow-hidden')
+            ->and(classesOf(renderComponent('sidebar-group')))->toContain('p-2');
+    });
+
     it('hides the group label when the sidebar collapses to icons', function () {
         expect(classesOf(renderComponent('sidebar-group-label')))
             ->toContain('group-data-[collapsible=icon]:opacity-0');

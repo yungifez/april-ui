@@ -85,6 +85,8 @@ The default. The sidebar slides off the screen.
 
 The sidebar shrinks to icon width and keeps the icons visible. Labels, badges, actions and submenus hide themselves.
 
+A long menu still scrolls when the sidebar is collapsed. The scrollbar is hidden so it does not take room from the icons.
+
 <x-code-block-wrapper language="blade">
 @verbatim
 <april:sidebar collapsible="icon">...</april:sidebar>
