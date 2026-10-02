@@ -121,10 +121,31 @@ abstract class DataTableComponent extends Component
         }
 
         if ($column = $this->findColumn($this->sort)) {
-            $column->applySort($query, $this->direction);
+            $this->sortBeforeBuilderOrder($query, $column);
         }
 
         return $query->paginate($this->perPage);
+    }
+
+    /**
+     * Apply the chosen sort ahead of any order the builder already has.
+     *
+     * The builder's order then only breaks ties. Appended after it, the
+     * chosen sort would change nothing whenever the builder orders rows.
+     */
+    protected function sortBeforeBuilderOrder(Builder $query, Column $column): void
+    {
+        $base = $query->getQuery();
+        $builderOrders = $base->orders ?? [];
+        $builderBindings = $base->bindings['order'];
+
+        $base->orders = null;
+        $base->bindings['order'] = [];
+
+        $column->applySort($query, $this->direction);
+
+        $base->orders = [...($base->orders ?? []), ...$builderOrders];
+        $base->bindings['order'] = [...$base->bindings['order'], ...$builderBindings];
     }
 
     /** @return array<int, array<string, mixed>> */
