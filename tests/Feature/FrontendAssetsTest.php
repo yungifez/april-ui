@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 describe('asset routes', function () {
     it('registers a named route', function (string $name) {
@@ -109,5 +110,31 @@ describe('the aprilEditorScripts directive', function () {
         $manifest = json_decode(file_get_contents(__DIR__.'/../../dist/manifest.json'), true);
 
         expect(render(' @aprilEditorScripts'))->toContain('?ver='.$manifest['/editor.js']);
+    });
+});
+
+describe('a compiled asset directive', function () {
+    it('follows the host that serves the page', function (string $directive) {
+        clearCompiledViews();
+        URL::forceRootUrl('http://first.test');
+        render($directive);
+
+        URL::forceRootUrl('http://second.test:8081');
+
+        expect(render($directive))
+            ->toContain('http://second.test:8081/april-ui/')
+            ->not->toContain('first.test');
+    })->with(['@aprilStyles', '@aprilScripts', '@aprilEditorScripts']);
+
+    it('follows the debug setting in force now', function () {
+        clearCompiledViews();
+        config()->set('app.debug', false);
+        render('@aprilEditorScripts');
+
+        config()->set('app.debug', true);
+
+        expect(render('@aprilEditorScripts'))
+            ->toContain('/april-ui/editor.js')
+            ->not->toContain('editor.min.js');
     });
 });
