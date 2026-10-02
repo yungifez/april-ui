@@ -6,46 +6,49 @@ use Illuminate\Support\Facades\Blade;
 
 class FrontendAssetsHandler
 {
+    /**
+     * @var array<string, string>|null
+     */
+    protected static ?array $manifestHashes = null;
+
     public function boot()
     {
-        $distPath = __DIR__.'/../../dist/';
-        $manifest = file_get_contents($distPath.'manifest.json');
-        $manifestHashes = json_decode($manifest, true);
+        Blade::directive('aprilStyles', fn () => '<?php echo \\'.static::class.'::styles(); ?>');
+        Blade::directive('aprilScripts', fn () => '<?php echo \\'.static::class.'::scripts(); ?>');
+        Blade::directive('aprilEditorScripts', fn () => '<?php echo \\'.static::class.'::editorScripts(); ?>');
+    }
 
-        Blade::directive('aprilStyles', function () use ($manifestHashes) {
-            $html = '';
-            if (config('app.debug') == 'true') {
-                $html = "<?php echo '<link rel=\"stylesheet\" href=\"".route('april-ui.april.css').'?ver='.$manifestHashes['/april.css']."\">' ; ?>";
-            } else {
-                $html = "<?php echo '<link rel=\"stylesheet\" href=\"".route('april-ui.april.min.css').'?ver='.$manifestHashes['/april.css']."\">' ; ?>";
-            }
+    /**
+     * Build the tag on each request, so the URL follows the host that serves the page
+     * and the debug setting in force now, not the ones present when the view compiled.
+     */
+    public static function styles(): string
+    {
+        return '<link rel="stylesheet" href="'.static::url('april', 'css').'">';
+    }
 
-            return $html;
-        });
+    public static function scripts(): string
+    {
+        return '<script src="'.static::url('april', 'js').'"></script>';
+    }
 
-        Blade::directive('aprilScripts', function () use ($manifestHashes) {
-            $html = '';
-            if (config('app.debug') == 'true') {
-                $html = "<?php echo '<script src=\"".route('april-ui.april.js').'?ver='.$manifestHashes['/april.js']."\"></script>' ; ?>";
-            } else {
-                $html = "<?php echo '<script src=\"".route('april-ui.april.min.js').'?ver='.$manifestHashes['/april.js']."\"></script>' ; ?>";
-            }
+    public static function editorScripts(): string
+    {
+        return '<script src="'.static::url('editor', 'js').'"></script>';
+    }
 
-            return $html;
-        });
+    protected static function url(string $bundle, string $extension): string
+    {
+        $name = config('app.debug') ? "{$bundle}.{$extension}" : "{$bundle}.min.{$extension}";
 
-        Blade::directive('aprilEditorScripts', function () use ($manifestHashes) {
-            $html = '';
-            $manifestHash = $manifestHashes['/editor.js'] ?? '';
+        return route("april-ui.{$name}").'?ver='.(static::manifestHashes()["/{$bundle}.{$extension}"] ?? '');
+    }
 
-            if (config('app.debug') == 'true') {
-                $html = "<?php echo '<script src=\"".route('april-ui.editor.js').'?ver='.$manifestHash."\"></script>' ; ?>";
-            } else {
-                $html = "<?php echo '<script src=\"".route('april-ui.editor.min.js').'?ver='.$manifestHash."\"></script>' ; ?>";
-            }
-
-            return $html;
-        });
-
+    /**
+     * @return array<string, string>
+     */
+    protected static function manifestHashes(): array
+    {
+        return static::$manifestHashes ??= json_decode(file_get_contents(__DIR__.'/../../dist/manifest.json'), true);
     }
 }
