@@ -9,7 +9,7 @@
         </april:alert-dialog-header>
         <april:alert-dialog-footer>
             <april:alert-dialog-cancel>Cancel</april:alert-dialog-cancel>
-            <april:alert-dialog-action>Continue</april:alert-dialog-action>
+            <april:alert-dialog-action type="button">Continue</april:alert-dialog-action>
         </april:alert-dialog-footer>
     </slot:content>
 </april:alert-dialog>
