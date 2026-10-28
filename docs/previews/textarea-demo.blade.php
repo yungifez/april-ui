@@ -1,1 +1,1 @@
-<april:textarea placeholder="Type your message here." class="w-full" />
+<april:textarea name="message" placeholder="Type your message here." class="w-full">This message is ready to edit.</april:textarea>
